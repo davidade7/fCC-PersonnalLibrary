@@ -1,12 +1,14 @@
-/*
-*
-*
-*       Complete the API routing below
-*       
-*       
-*/
-
 'use strict';
+
+// required modules
+require('dotenv').config()
+const mongoose = require('mongoose')
+
+// Connection to mongoose
+mongoose.connect(process.env['MONGO_URI'])
+  .then(() => console.log("Connected to DB"))
+  .catch(console.error);;
+
 
 module.exports = function (app) {
 
