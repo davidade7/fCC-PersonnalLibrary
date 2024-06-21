@@ -10,12 +10,18 @@ mongoose.connect(process.env['MONGO_URI'])
   .catch(console.error);;
 
 
+// Schema for the books
+const Book = require('../models/bookSchema')
+
+
 module.exports = function (app) {
 
   app.route('/api/books')
-    .get(function (req, res){
+    .get(async (req, res) => {
       //response will be array of book objects
       //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
+      let result = await Book.find({}).exec()
+      res.json(result)
     })
     
     .post(function (req, res){
