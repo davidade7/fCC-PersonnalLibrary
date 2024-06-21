@@ -25,8 +25,18 @@ module.exports = function (app) {
     })
     
     .post(function (req, res){
-      let title = req.body.title;
       //response will contain new book object including atleast _id and title
+      let title = req.body.title;
+      
+      // check if title is missing
+      if (!title) {
+        return res.send("missing required field title")
+      }
+
+      // create new book
+      let newBook = new Book({ title: title })
+      newBook.save()
+      res.json(doc)       
     })
     
     .delete(function(req, res){
