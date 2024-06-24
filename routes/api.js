@@ -21,7 +21,12 @@ module.exports = function (app) {
       //response will be array of book objects
       //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
       let result = await Book.find({}).exec()
-      res.json(result)
+      let resonse = []
+      // formating the response
+      for (let item of result) {
+        resonse.push({"_id": item._id, "title": item.title, "commentcount": item.commentscount})
+      }
+      res.json(resonse)
     })
     
     .post(function (req, res){
@@ -36,11 +41,13 @@ module.exports = function (app) {
       // create new book
       let newBook = new Book({ title: title })
       newBook.save()
-      res.json(doc)       
+      res.json({_id : newBook._id, title: newBook.title})       
     })
     
     .delete(function(req, res){
       //if successful response will be 'complete delete successful'
+      Book.deleteMany({}).exec()
+      res.send("complete delete successful")
     });
 
 
