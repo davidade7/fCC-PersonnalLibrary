@@ -51,7 +51,7 @@ module.exports = function (app) {
     .delete((req, res) => {
       // Deleting all books
       Book.deleteMany({}).exec()
-      res.send("complete delete successful")
+      res.json("complete delete successful")
     });
 
   app.route('/api/books/:id')
@@ -61,10 +61,14 @@ module.exports = function (app) {
       // Finding the book
       try {
         let result = await Book.find({_id: bookid}).exec()
+
+        if (result.length === 0) {
+          return res.json("no book exists")
+        }
         res.json({_id : result[0]._id, title: result[0].title, comments: result[0].comments})
       }
       catch (e) {
-        return res.send("no book exists")
+        return res.json("no book exists")
       }
     })
     
